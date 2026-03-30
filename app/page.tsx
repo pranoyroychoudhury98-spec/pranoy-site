@@ -2,7 +2,6 @@
 
 import { type ChangeEvent, type FormEvent, useMemo, useState } from "react";
 
-
 type IconProps = {
   size?: number;
   className?: string;
@@ -378,35 +377,24 @@ export default function PranoyPolicyWebsite() {
                 <p className="text-sm uppercase tracking-[0.3em] text-red-400">
                   About
                 </p>
-                <h3 className="mt-3 text-3xl font-semibold">
-                  A policy-oriented research profile
-                </h3>
               </div>
               <div className="space-y-5 text-base leading-8 text-neutral-300">
-                <p>
-                  Pranoy Roy Choudhury is pursuing an MA in International
-                  Political Economy at King&apos;s College London, having
-                  previously completed a BA in History, Politics and
-                  International Relations at Royal Holloway, University of
-                  London.
-                </p>
-                <p>
-                  He is Chief Data Officer at the Geoeconomic Strategy Unit and
-                  a Research Analyst at the King&apos;s Green Finance Society,
-                  where his work centres on monetary systems, financial
-                  stability, climate policy and capital flows.
-                </p>
-                <p>
-                  Prior to this, he worked in insurance and claims within the
-                  shipping sector at AET, gaining exposure to global trade, risk
-                  management and regulatory environments.
-                </p>
-                <p>
-                  He is building a career in economic policy, with a particular
-                  interest in central banking, regulation, financial systems and
-                  market-facing policy analysis.
-                </p>
-              </div>
+  <p>
+    I am a Master’s student in International Political Economy at King’s College London. Over time, my work has come to revolve around a few recurring questions: how financial systems transmit risk, how that risk turns into instability and how governments respond when it does.
+  </p>
+
+  <p>
+    My focus sits at the intersection of financial systems and policy frameworks, particularly when established tools begin to lose their grip. What matters in these moments is not just what policies exist but how they are adapted in practice. That includes changes in regulation, shifts in monetary strategy and the quiet reworking of institutions as markets and technology move faster than expected.
+  </p>
+
+  <p>
+    I previously worked as a researcher at King’s Think Tank, where I looked at how programmable central bank digital currencies could affect capital flows and exchange rate dynamics. I now serve as Chief Data Officer at the Geoeconomic Strategy Unit. My work there centres on building a country-level analytical framework that brings together macroeconomic, political and financial data into a single model. The role cuts across functions. It involves designing the structure of the model itself, working closely with technical teams on implementation and engaging with the commercial side to ensure the output is both credible and usable.
+  </p>
+
+  <p>
+    Across both strands of my work, the underlying interest is the same. Economic systems rarely adjust smoothly. They come under pressure, adapt unevenly and reveal their limits in the process. Understanding those moments and what they tell us about the design of policy and institutions is what drives my research.
+  </p>
+</div>
             </div>
           </div>
         </section>
