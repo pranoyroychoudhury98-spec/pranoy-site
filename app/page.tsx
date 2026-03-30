@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 
 function IconMenu({ size = 18, className = "" }) {
   return (
@@ -211,25 +211,51 @@ export default function PranoyPolicyWebsite() {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        throw new Error("Message could not be sent.");
-      }
+   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+  setFormState({ loading: true, success: false, error: "" });
 
-      setFormState({ loading: false, success: true, error: "" });
-      setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
-      setFormState({
-        loading: false,
-        success: false,
-        error: "Message could not be sent right now. Please try again later.",
-      });
+  if (isPlaceholderEndpoint) {
+    setFormState({
+      loading: false,
+      success: false,
+      error:
+        "The contact form is ready, but it needs a live Formspree endpoint before messages can be delivered.",
+    });
+    return;
+  }
+
+  try {
+    const response = await fetch(formEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Message could not be sent.");
     }
-  }
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setFormData((current) => ({ ...current, [name]: value }));
+    setFormState({ loading: false, success: true, error: "" });
+    setFormData({ name: "", email: "", message: "" });
+  } catch {
+    setFormState({
+      loading: false,
+      success: false,
+      error: "Message could not be sent right now. Please try again later.",
+    });
   }
+}
+
+function handleChange(
+  event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) {
+  const { name, value } = event.target;
+  setFormData((current) => ({ ...current, [name]: value }));
+}
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100">
