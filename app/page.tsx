@@ -508,66 +508,97 @@ export default function PranoyPolicyWebsite() {
           </div>
         </section>
 
-        <section id="cv" className="border-b border-white/10">
-          <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-red-400">
-                  CV snapshot
-                </p>
-                <h3 className="mt-3 text-3xl font-semibold">
-                  Education and experience
-                </h3>
-              </div>
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 rounded-2xl border border-white/15 px-4 py-2 text-sm text-neutral-300 transition hover:border-white/30 hover:bg-white/5"
-              >
-                <IconFileText size={16} />
-                Request full CV
-              </a>
-            </div>
+<section id="cv" className="border-b border-white/10">
+  <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+    <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p className="text-sm uppercase tracking-[0.3em] text-red-400">
+          CV snapshot
+        </p>
+        <h3 className="mt-3 text-3xl font-semibold">
+          Education and experience
+        </h3>
+      </div>
+      
+      <a
+        href="#"
+        className="inline-flex items-center gap-2 rounded-2xl border border-white/15 px-4 py-2 text-sm text-neutral-300 transition hover:border-white/30 hover:bg-white/5"
+      >
+        <IconFileText size={16} />
+        Download full CV
+      </a>
+    </div>
 
-            <div className="mt-10 grid gap-10 md:grid-cols-2">
-              <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-                <h4 className="text-lg font-semibold">Education</h4>
-                <ul className="mt-4 space-y-5 text-sm leading-7 text-neutral-300">
-                  <li>
-                    <strong>MA International Political Economy</strong>
-                    <br />
-                    King&apos;s College London
-                  </li>
-                  <li>
-                    <strong>BA History, Politics and International Relations</strong>
-                    <br />
-                    Royal Holloway, University of London
-                  </li>
-                </ul>
-              </div>
+    <div className="mt-10 grid gap-10 md:grid-cols-3">
 
-              <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-                <h4 className="text-lg font-semibold">Experience</h4>
-                <ul className="mt-4 space-y-5 text-sm leading-7 text-neutral-300">
-                  <li>
-                    <strong>Chief Data Officer</strong>
-                    <br />
-                    Geoeconomic Strategy Unit
-                  </li>
-                  <li>
-                    <strong>Research Analyst</strong>
-                    <br />
-                    King&apos;s Green Finance Society
-                  </li>
-                  <li>
-                    <strong>Insurance &amp; Claims Executive</strong>
-                    <br />
-                    AET
-                  </li>
-                </ul>
-              </div>
-            </div>
+      {/* Education */}
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+        <h4 className="text-lg font-semibold">Education</h4>
+        <div className="mt-4 space-y-5 text-sm leading-7 text-neutral-300">
+          <div>
+            <strong>MA International Political Economy</strong>
+            <br />
+            King&apos;s College London
           </div>
-        </section>
+          <div>
+            <strong>BA History, Politics and International Relations</strong>
+            <br />
+            Royal Holloway, University of London
+          </div>
+        </div>
+      </div>
+
+      {/* Experience */}
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+        <h4 className="text-lg font-semibold">Experience</h4>
+        <div className="mt-4 space-y-5 text-sm leading-7 text-neutral-300">
+          <div>
+            <strong>Chief Data Officer</strong>
+            <br />
+            Geoeconomic Strategy Unit
+            <p className="mt-2 text-neutral-400">
+              Leading the development of a macro-financial data framework
+              integrating economic, political and financial data into a
+              structured model for country-level analysis.
+            </p>
+          </div>
+          <div>
+            <strong>Researcher</strong>
+            <br />
+            King&apos;s Think Tank
+            <p className="mt-2 text-neutral-400">
+              Conducted policy-focused research on programmable digital
+              currencies and capital flows with an emphasis on monetary
+              systems and regulatory implications.
+            </p>
+          </div>
+          <div>
+            <strong>Insurance &amp; Claims Executive</strong>
+            <br />
+            AET
+            <p className="mt-2 text-neutral-400">
+              Worked on risk, insurance and regulatory exposure within global
+              shipping markets, with direct insight into trade flows,
+              compliance and financial risk management.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Capabilities */}
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+        <h4 className="text-lg font-semibold">Capabilities</h4>
+        <ul className="mt-4 space-y-3 text-sm leading-7 text-neutral-300">
+          <li>Macro-financial analysis and policy-oriented research</li>
+          <li>Quantitative modelling and data analysis in Python</li>
+          <li>Country-level risk and opportunity assessment frameworks</li>
+          <li>Translating technical outputs into commercially and policy-relevant insights</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
 
         <section id="contact">
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
