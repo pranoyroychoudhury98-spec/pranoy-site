@@ -2,6 +2,7 @@
 
 import { type ChangeEvent, type FormEvent, useMemo, useState } from "react";
 
+
 type IconProps = {
   size?: number;
   className?: string;
@@ -323,14 +324,10 @@ export default function PranoyPolicyWebsite() {
                 Policy research portfolio
               </p>
               <h2 className="max-w-4xl text-4xl font-semibold leading-tight md:text-6xl">
-                Solutions-oriented analysis at the intersection of economic
-                policy, financial systems and markets.
+                When financial systems come under pressure, policy is forced to adapt.
               </h2>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-300">
-                Focused on how institutions respond to structural shifts in
-                monetary systems, capital flows and technological change, with
-                an emphasis on policy relevance, market dynamics and real-world
-                application.
+                Focused on how institutions respond when financial systems come under strain across monetary systems, capital flows and technological change.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
@@ -355,20 +352,19 @@ export default function PranoyPolicyWebsite() {
                   Current focus
                 </p>
                 <ul className="mt-4 space-y-3 text-sm leading-7 text-neutral-200">
-                  <li>• Monetary policy and central banking</li>
-                  <li>• Financial stability and capital flows</li>
-                  <li>• Payments, CBDCs and regulation</li>
-                  <li>• Trade, energy and geoeconomics</li>
+                  <li>• Monetary policy and central banking operations</li>
+                  <li>• Financial stability and capital flow dynamics</li>
+                  <li>• Payments systems and regulatory design</li>
+                  <li>• Trade, energy and geoeconomic risks</li>
                 </ul>
               </div>
               <div className="rounded-3xl border border-red-500/20 bg-gradient-to-br from-red-500/10 to-transparent p-6">
                 <p className="text-sm uppercase tracking-[0.25em] text-red-300">
-                  Built for launch
+                  Active research note
                 </p>
-                <p className="mt-4 text-sm leading-7 text-neutral-200">
-                  This version is structured to go live now, with space to add
-                  articles, essays and research outputs as they are published
-                  over the coming month.
+                <p className="mt-4 text-sm leading-7 text-neutral-300">
+                  Currently investigating AI-sector capital flow dynamics and
+                  the systemic risk implications of programmable monetary systems.
                 </p>
               </div>
             </div>
