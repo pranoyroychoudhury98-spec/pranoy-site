@@ -1,7 +1,25 @@
 "use client";
-import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 
-function IconMenu({ size = 18, className = "" }) {
+import { type ChangeEvent, type FormEvent, useMemo, useState } from "react";
+
+type IconProps = {
+  size?: number;
+  className?: string;
+};
+
+type FormDataState = {
+  name: string;
+  email: string;
+  message: string;
+};
+
+type FormState = {
+  loading: boolean;
+  success: boolean;
+  error: string;
+};
+
+function IconMenu({ size = 18, className = "" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +41,7 @@ function IconMenu({ size = 18, className = "" }) {
   );
 }
 
-function IconX({ size = 18, className = "" }) {
+function IconX({ size = 18, className = "" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +62,7 @@ function IconX({ size = 18, className = "" }) {
   );
 }
 
-function IconMail({ size = 16, className = "" }) {
+function IconMail({ size = 16, className = "" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +83,7 @@ function IconMail({ size = 16, className = "" }) {
   );
 }
 
-function IconLinkedIn({ size = 16, className = "" }) {
+function IconLinkedIn({ size = 16, className = "" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +105,7 @@ function IconLinkedIn({ size = 16, className = "" }) {
   );
 }
 
-function IconFileText({ size = 16, className = "" }) {
+function IconFileText({ size = 16, className = "" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +129,7 @@ function IconFileText({ size = 16, className = "" }) {
   );
 }
 
-function IconArrowUpRight({ size = 16, className = "" }) {
+function IconArrowUpRight({ size = 16, className = "" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -134,8 +152,16 @@ function IconArrowUpRight({ size = 16, className = "" }) {
 
 export default function PranoyPolicyWebsite() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [formState, setFormState] = useState({ loading: false, success: false, error: "" });
+  const [formData, setFormData] = useState<FormDataState>({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [formState, setFormState] = useState<FormState>({
+    loading: false,
+    success: false,
+    error: "",
+  });
 
   const navigation = useMemo(
     () => [
@@ -146,19 +172,21 @@ export default function PranoyPolicyWebsite() {
       { label: "CV", href: "#cv" },
       { label: "Contact", href: "#contact" },
     ],
-    [],
+    []
   );
 
   const featuredWriting = [
     {
-      title: "The Role of Programmable CBDCs in Shaping Capital Flows and Exchange Rate Dynamics",
+      title:
+        "The Role of Programmable CBDCs in Shaping Capital Flows and Exchange Rate Dynamics",
       category: "Monetary Policy",
       summary:
         "A quantitative and policy-oriented analysis of how programmable central bank digital currencies could reshape capital mobility, exchange rate dynamics and state capacity.",
       status: "Draft in progress",
     },
     {
-      title: "Wired for Instability? An Empirical Stress Test of AI-Sector Capital Flows and Bubble Risk",
+      title:
+        "Wired for Instability? An Empirical Stress Test of AI-Sector Capital Flows and Bubble Risk",
       category: "Financial Stability",
       summary:
         "An empirical investigation into whether capital allocation into AI-intensive sectors is drifting away from fundamentals, and what that may imply for systemic risk.",
@@ -187,7 +215,7 @@ export default function PranoyPolicyWebsite() {
   const formEndpoint = "https://formspree.io/f/your-form-id";
   const isPlaceholderEndpoint = formEndpoint.includes("your-form-id");
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormState({ loading: true, success: false, error: "" });
 
@@ -211,64 +239,48 @@ export default function PranoyPolicyWebsite() {
         body: JSON.stringify(formData),
       });
 
-   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault();
-  setFormState({ loading: true, success: false, error: "" });
+      if (!response.ok) {
+        throw new Error("Message could not be sent.");
+      }
 
-  if (isPlaceholderEndpoint) {
-    setFormState({
-      loading: false,
-      success: false,
-      error:
-        "The contact form is ready, but it needs a live Formspree endpoint before messages can be delivered.",
-    });
-    return;
-  }
-
-  try {
-    const response = await fetch(formEndpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (!response.ok) {
-      throw new Error("Message could not be sent.");
+      setFormState({ loading: false, success: true, error: "" });
+      setFormData({ name: "", email: "", message: "" });
+    } catch {
+      setFormState({
+        loading: false,
+        success: false,
+        error: "Message could not be sent right now. Please try again later.",
+      });
     }
-
-    setFormState({ loading: false, success: true, error: "" });
-    setFormData({ name: "", email: "", message: "" });
-  } catch {
-    setFormState({
-      loading: false,
-      success: false,
-      error: "Message could not be sent right now. Please try again later.",
-    });
   }
-}
 
-function handleChange(
-  event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-) {
-  const { name, value } = event.target;
-  setFormData((current) => ({ ...current, [name]: value }));
-}
+  function handleChange(
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
+  }
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100">
       <header className="sticky top-0 z-30 border-b border-white/10 bg-neutral-950/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="min-w-0">
-            <p className="text-xs uppercase tracking-[0.3em] text-red-400">Pranoy Roy Choudhury</p>
-            <h1 className="mt-1 text-sm text-neutral-300">Economic Policy · Financial Systems · Markets</h1>
+            <p className="text-xs uppercase tracking-[0.3em] text-red-400">
+              Pranoy Roy Choudhury
+            </p>
+            <h1 className="mt-1 text-sm text-neutral-300">
+              Economic Policy · Financial Systems · Markets
+            </h1>
           </a>
 
           <nav className="hidden items-center gap-6 text-sm text-neutral-300 md:flex">
             {navigation.map((item) => (
-              <a key={item.href} href={item.href} className="transition hover:text-white">
+              <a
+                key={item.href}
+                href={item.href}
+                className="transition hover:text-white"
+              >
                 {item.label}
               </a>
             ))}
@@ -307,12 +319,18 @@ function handleChange(
         <section className="border-b border-white/10">
           <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-[1.2fr_0.8fr] md:py-28">
             <div>
-              <p className="mb-4 text-sm uppercase tracking-[0.3em] text-red-400">Policy research portfolio</p>
+              <p className="mb-4 text-sm uppercase tracking-[0.3em] text-red-400">
+                Policy research portfolio
+              </p>
               <h2 className="max-w-4xl text-4xl font-semibold leading-tight md:text-6xl">
-                Solutions-oriented analysis at the intersection of economic policy, financial systems and markets.
+                Solutions-oriented analysis at the intersection of economic
+                policy, financial systems and markets.
               </h2>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-300">
-                Focused on how institutions respond to structural shifts in monetary systems, capital flows and technological change, with an emphasis on policy relevance, market dynamics and real-world application.
+                Focused on how institutions respond to structural shifts in
+                monetary systems, capital flows and technological change, with
+                an emphasis on policy relevance, market dynamics and real-world
+                application.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
@@ -333,7 +351,9 @@ function handleChange(
 
             <div className="grid gap-4">
               <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20">
-                <p className="text-sm uppercase tracking-[0.25em] text-neutral-400">Current focus</p>
+                <p className="text-sm uppercase tracking-[0.25em] text-neutral-400">
+                  Current focus
+                </p>
                 <ul className="mt-4 space-y-3 text-sm leading-7 text-neutral-200">
                   <li>• Monetary policy and central banking</li>
                   <li>• Financial stability and capital flows</li>
@@ -342,9 +362,13 @@ function handleChange(
                 </ul>
               </div>
               <div className="rounded-3xl border border-red-500/20 bg-gradient-to-br from-red-500/10 to-transparent p-6">
-                <p className="text-sm uppercase tracking-[0.25em] text-red-300">Built for launch</p>
+                <p className="text-sm uppercase tracking-[0.25em] text-red-300">
+                  Built for launch
+                </p>
                 <p className="mt-4 text-sm leading-7 text-neutral-200">
-                  This version is structured to go live now, with space to add articles, essays and research outputs as they are published over the coming month.
+                  This version is structured to go live now, with space to add
+                  articles, essays and research outputs as they are published
+                  over the coming month.
                 </p>
               </div>
             </div>
@@ -355,21 +379,36 @@ function handleChange(
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
             <div className="grid gap-10 md:grid-cols-[0.85fr_1.15fr]">
               <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-red-400">About</p>
-                <h3 className="mt-3 text-3xl font-semibold">A policy-oriented research profile</h3>
+                <p className="text-sm uppercase tracking-[0.3em] text-red-400">
+                  About
+                </p>
+                <h3 className="mt-3 text-3xl font-semibold">
+                  A policy-oriented research profile
+                </h3>
               </div>
               <div className="space-y-5 text-base leading-8 text-neutral-300">
                 <p>
-                  Pranoy Roy Choudhury is pursuing an MA in International Political Economy at King’s College London, having previously completed a BA in History, Politics and International Relations at Royal Holloway, University of London.
+                  Pranoy Roy Choudhury is pursuing an MA in International
+                  Political Economy at King&apos;s College London, having
+                  previously completed a BA in History, Politics and
+                  International Relations at Royal Holloway, University of
+                  London.
                 </p>
                 <p>
-                  He is Chief Data Officer at the Geoeconomic Strategy Unit and a Research Analyst at the King’s Green Finance Society, where his work centres on monetary systems, financial stability, climate policy and capital flows.
+                  He is Chief Data Officer at the Geoeconomic Strategy Unit and
+                  a Research Analyst at the King&apos;s Green Finance Society,
+                  where his work centres on monetary systems, financial
+                  stability, climate policy and capital flows.
                 </p>
                 <p>
-                  Prior to this, he worked in insurance and claims within the shipping sector at AET, gaining exposure to global trade, risk management and regulatory environments.
+                  Prior to this, he worked in insurance and claims within the
+                  shipping sector at AET, gaining exposure to global trade, risk
+                  management and regulatory environments.
                 </p>
                 <p>
-                  He is building a career in economic policy, with a particular interest in central banking, regulation, financial systems and market-facing policy analysis.
+                  He is building a career in economic policy, with a particular
+                  interest in central banking, regulation, financial systems and
+                  market-facing policy analysis.
                 </p>
               </div>
             </div>
@@ -379,27 +418,35 @@ function handleChange(
         <section id="themes" className="border-b border-white/10">
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
             <div className="mb-10">
-              <p className="text-sm uppercase tracking-[0.3em] text-red-400">Research themes</p>
-              <h3 className="mt-3 text-3xl font-semibold">Core areas of interest</h3>
+              <p className="text-sm uppercase tracking-[0.3em] text-red-400">
+                Research themes
+              </p>
+              <h3 className="mt-3 text-3xl font-semibold">
+                Core areas of interest
+              </h3>
             </div>
 
             <div className="grid gap-6 md:grid-cols-3">
               <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
                 <h4 className="text-xl font-semibold">Monetary systems</h4>
                 <p className="mt-4 text-sm leading-7 text-neutral-400">
-                  Monetary policy, central banking, capital mobility, financial repression and the changing architecture of digital money.
+                  Monetary policy, central banking, capital mobility, financial
+                  repression and the changing architecture of digital money.
                 </p>
               </div>
               <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
                 <h4 className="text-xl font-semibold">Financial stability</h4>
                 <p className="mt-4 text-sm leading-7 text-neutral-400">
-                  Asset-price excess, capital concentration, systemic fragility and the policy implications of rapid technological shifts in markets.
+                  Asset-price excess, capital concentration, systemic fragility
+                  and the policy implications of rapid technological shifts in
+                  markets.
                 </p>
               </div>
               <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
                 <h4 className="text-xl font-semibold">Trade and geoeconomics</h4>
                 <p className="mt-4 text-sm leading-7 text-neutral-400">
-                  Energy markets, shipping, insurance, sanctions risk and the political economy of global trade disruption.
+                  Energy markets, shipping, insurance, sanctions risk and the
+                  political economy of global trade disruption.
                 </p>
               </div>
             </div>
@@ -409,25 +456,43 @@ function handleChange(
         <section id="writing" className="border-b border-white/10">
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
             <div className="mb-10">
-              <p className="text-sm uppercase tracking-[0.3em] text-red-400">Writing</p>
-              <h3 className="mt-3 text-3xl font-semibold">Articles and research</h3>
+              <p className="text-sm uppercase tracking-[0.3em] text-red-400">
+                Writing
+              </p>
+              <h3 className="mt-3 text-3xl font-semibold">
+                Articles and research
+              </h3>
             </div>
 
             <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 md:p-10">
-              <p className="text-sm uppercase tracking-[0.25em] text-red-300">Coming soon</p>
-              <h4 className="mt-4 text-2xl font-semibold">The writing archive is being built</h4>
+              <p className="text-sm uppercase tracking-[0.25em] text-red-300">
+                Coming soon
+              </p>
+              <h4 className="mt-4 text-2xl font-semibold">
+                The writing archive is being built
+              </h4>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-neutral-400">
-                This section is ready to house published essays, research commentary and longer-form policy writing. The first pieces are currently being developed and can be published here as soon as they are ready.
+                This section is ready to house published essays, research
+                commentary and longer-form policy writing. The first pieces are
+                currently being developed and can be published here as soon as
+                they are ready.
               </p>
 
               <div className="mt-8 grid gap-4 md:grid-cols-2">
                 {featuredWriting.map((article) => (
-                  <div key={article.title} className="rounded-3xl border border-white/10 bg-neutral-900 p-6">
+                  <div
+                    key={article.title}
+                    className="rounded-3xl border border-white/10 bg-neutral-900 p-6"
+                  >
                     <p className="text-xs uppercase tracking-[0.25em] text-red-300">
                       {article.status} · {article.category}
                     </p>
-                    <h5 className="mt-3 text-lg font-semibold leading-7">{article.title}</h5>
-                    <p className="mt-3 text-sm leading-7 text-neutral-400">{article.summary}</p>
+                    <h5 className="mt-3 text-lg font-semibold leading-7">
+                      {article.title}
+                    </h5>
+                    <p className="mt-3 text-sm leading-7 text-neutral-400">
+                      {article.summary}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -437,13 +502,22 @@ function handleChange(
 
         <section id="projects" className="border-b border-white/10">
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
-            <p className="text-sm uppercase tracking-[0.3em] text-red-400">Projects</p>
-            <h3 className="mt-3 text-3xl font-semibold">Research and analytical work</h3>
+            <p className="text-sm uppercase tracking-[0.3em] text-red-400">
+              Projects
+            </p>
+            <h3 className="mt-3 text-3xl font-semibold">
+              Research and analytical work
+            </h3>
             <div className="mt-10 grid gap-6 md:grid-cols-3">
               {projects.map((project) => (
-                <div key={project.title} className="rounded-3xl border border-white/10 bg-neutral-900 p-6">
+                <div
+                  key={project.title}
+                  className="rounded-3xl border border-white/10 bg-neutral-900 p-6"
+                >
                   <h4 className="text-xl font-semibold">{project.title}</h4>
-                  <p className="mt-4 text-sm leading-7 text-neutral-400">{project.description}</p>
+                  <p className="mt-4 text-sm leading-7 text-neutral-400">
+                    {project.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -454,8 +528,12 @@ function handleChange(
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-red-400">CV snapshot</p>
-                <h3 className="mt-3 text-3xl font-semibold">Education and experience</h3>
+                <p className="text-sm uppercase tracking-[0.3em] text-red-400">
+                  CV snapshot
+                </p>
+                <h3 className="mt-3 text-3xl font-semibold">
+                  Education and experience
+                </h3>
               </div>
               <a
                 href="#contact"
@@ -473,7 +551,7 @@ function handleChange(
                   <li>
                     <strong>MA International Political Economy</strong>
                     <br />
-                    King’s College London
+                    King&apos;s College London
                   </li>
                   <li>
                     <strong>BA History, Politics and International Relations</strong>
@@ -494,10 +572,10 @@ function handleChange(
                   <li>
                     <strong>Research Analyst</strong>
                     <br />
-                    King’s Green Finance Society
+                    King&apos;s Green Finance Society
                   </li>
                   <li>
-                    <strong>Insurance & Claims Executive</strong>
+                    <strong>Insurance &amp; Claims Executive</strong>
                     <br />
                     AET
                   </li>
@@ -511,10 +589,14 @@ function handleChange(
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
             <div className="grid gap-6 md:grid-cols-[1fr_0.95fr]">
               <div className="rounded-[2rem] border border-red-500/20 bg-gradient-to-br from-white/5 to-red-500/10 p-8 md:p-10">
-                <p className="text-sm uppercase tracking-[0.3em] text-red-300">Contact</p>
+                <p className="text-sm uppercase tracking-[0.3em] text-red-300">
+                  Contact
+                </p>
                 <h3 className="mt-3 text-3xl font-semibold">Get in touch</h3>
                 <p className="mt-4 max-w-2xl text-base leading-8 text-neutral-300">
-                  For research, writing or policy opportunities, the site is set up to support direct contact without publicly displaying a personal email address.
+                  For research, writing or policy opportunities, the site is
+                  set up to support direct contact without publicly displaying a
+                  personal email address.
                 </p>
 
                 <div className="mt-8 flex flex-wrap gap-4">
@@ -538,7 +620,9 @@ function handleChange(
               </div>
 
               <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 md:p-10">
-                <p className="text-sm uppercase tracking-[0.25em] text-neutral-400">Reach out</p>
+                <p className="text-sm uppercase tracking-[0.25em] text-neutral-400">
+                  Reach out
+                </p>
                 <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
                   <input
                     type="text"
@@ -577,12 +661,21 @@ function handleChange(
                   </button>
                 </form>
 
-                {formState.success && <p className="mt-4 text-sm leading-7 text-green-400">Message sent successfully.</p>}
+                {formState.success && (
+                  <p className="mt-4 text-sm leading-7 text-green-400">
+                    Message sent successfully.
+                  </p>
+                )}
 
-                {formState.error && <p className="mt-4 text-sm leading-7 text-amber-300">{formState.error}</p>}
+                {formState.error && (
+                  <p className="mt-4 text-sm leading-7 text-amber-300">
+                    {formState.error}
+                  </p>
+                )}
 
                 <p className="mt-4 text-xs leading-6 text-neutral-500">
-                  Replace the placeholder Formspree URL in the code with your live endpoint before deploying.
+                  Replace the placeholder Formspree URL in the code with your
+                  live endpoint before deploying.
                 </p>
               </div>
             </div>
